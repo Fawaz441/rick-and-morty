@@ -5,7 +5,7 @@ import { routes } from '../utils/constants'
 const Header = () => {
     const isHomePage = window.location.pathname === routes.home
     return (
-        <div className='h-[80px] fixed flex items-center bg-black w-screen px-10 pt-3 pb-2 justify-between'>
+        <div className='h-[80px] fixed flex flex-col space-y-2 md:space-y-0 md:flex-row items-center bg-black w-screen px-5 md:px-10 pt-3 pb-2 md:justify-between'>
             <h3 className='text-white text-[30px] '>Rick & Morty!</h3>
             {isHomePage ?
                 <Link to={routes.locations}>

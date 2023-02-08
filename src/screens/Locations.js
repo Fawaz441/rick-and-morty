@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import PullToRefresh from 'react-simple-pull-to-refresh';
 import {
     Empty, Header,
     BottomLoader, ScreenLoader,
@@ -44,24 +45,26 @@ const Locations = () => {
     }
 
     return (
-        <div className='flex flex-col min-h-screen relative'>
-            <Header />
-            <div className='item-container pt-[85px] px-10 flex flex-col md:flex-row md:justify-between md:flex-wrap'>
-                {locations.map(location => (
-                    <LocationItem key={location.id}
-                        location={location}
-                        onClick={() => onLocationClick(location)}
-                    />
-                ))}
-            </div>
-            {error && <Empty error={error} />}
-            <div className="mt-auto" ref={bottomRef} />
-            <BottomLoader
-                hasReachedEnd={Object.keys(locationsInfo).length > 0 && !locationsInfo.next}
-                isLoading={loadingLocations && locations.length > 0} />
-            <ScreenLoader isLoading={loadingLocations && locations.length === 0} />
+        <PullToRefresh refreshingContent={loadingLocations} onRefresh={() => dispatch(actions.fetchLocations())}>
+            <div className='flex flex-col min-h-screen relative'>
+                <Header />
+                <div className='item-container pt-[85px] px-10 flex flex-col md:flex-row md:justify-between md:flex-wrap'>
+                    {locations.map(location => (
+                        <LocationItem key={location.id}
+                            location={location}
+                            onClick={() => onLocationClick(location)}
+                        />
+                    ))}
+                </div>
+                {error && <Empty error={error} />}
+                <div className="mt-auto" ref={bottomRef} />
+                <BottomLoader
+                    hasReachedEnd={Object.keys(locationsInfo).length > 0 && !locationsInfo.next}
+                    isLoading={loadingLocations && locations.length > 0} />
+                <ScreenLoader isLoading={loadingLocations && locations.length === 0} />
 
-        </div>
+            </div>
+        </PullToRefresh>
     )
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import PullToRefresh from 'react-simple-pull-to-refresh';
 import {
     Empty, Header, Character,
     BottomLoader, ScreenLoader,
@@ -32,38 +33,45 @@ const Characters = () => {
         return () => dispatch(actions.resetCharacters())
     }, [])
 
-    useEffect(() => {
+    const fetchMore = () => {
         if (hasReachedBottom && !loadingCharacters && charactersInfo?.next && !filteredCharacters && characters.length > 0) {
             dispatch(actions.fetchCharacters({ url: charactersInfo.next }))
         }
+    }
+
+    useEffect(() => {
+        fetchMore()
     }, [hasReachedBottom])
 
     const clearAction = () => setActiveAction(null)
 
 
+
     return (
-        <div className='flex flex-col min-h-screen relative'>
-            <Header />
-            <div className='item-container pt-[85px] flex flex-col md:flex-row md:justify-between md:flex-wrap'>
-                {characters.map((character, index) => (
-                    <Character character={character} key={index} />
-                ))}
+        <PullToRefresh refreshingContent={loadingCharacters} onRefresh={() => dispatch(actions.fetchCharacters())}>
+            <div className='flex flex-col min-h-screen relative'>
+                <Header />
+                <div className='item-container pt-[85px] flex flex-col md:flex-row md:justify-between md:flex-wrap'>
+                    {characters.map((character, index) => (
+                        <Character character={character} key={index} />
+                    ))}
+                </div>
+                {error && <Empty error={error} />}
+                <div className="mt-auto" ref={bottomRef} />
+                <BottomLoader
+                    hasReachedEnd={Object.keys(charactersInfo).length > 0 && !charactersInfo.next}
+                    isLoading={loadingCharacters && characters.length > 0} />
+                <ScreenLoader isLoading={loadingCharacters && characters.length === 0} />
+                <FilterAction onClick={() => setActiveAction(ACTIONS.filter)} />
+                <SearchAction onClick={() => setActiveAction(ACTIONS.search)} />
+                {activeAction === ACTIONS.filter && <FilterModal
+                    onClose={clearAction}
+                />}
+                {activeAction === ACTIONS.search && <SearchModal
+                    onClose={clearAction}
+                />}
             </div>
-            {error && <Empty error={error} />}
-            <div className="mt-auto" ref={bottomRef} />
-            <BottomLoader
-                hasReachedEnd={Object.keys(charactersInfo).length > 0 && !charactersInfo.next}
-                isLoading={loadingCharacters && characters.length > 0} />
-            <ScreenLoader isLoading={loadingCharacters && characters.length === 0} />
-            <FilterAction onClick={() => setActiveAction(ACTIONS.filter)} />
-            <SearchAction onClick={() => setActiveAction(ACTIONS.search)} />
-            {activeAction === ACTIONS.filter && <FilterModal
-                onClose={clearAction}
-            />}
-            {activeAction === ACTIONS.search && <SearchModal
-                onClose={clearAction}
-            />}
-        </div>
+        </PullToRefresh>
     )
 }
 
