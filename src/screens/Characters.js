@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Empty, Header } from '../components'
+import {
+    Empty, Header, Character,
+    BottomLoader, ScreenLoader,
+    SearchModal, FilterModal
+} from '../components'
 import { FilterAction, SearchAction } from '../components/Actions'
-import BottomLoader from '../components/BottomLoader'
-import Character from '../components/Character'
-import FilterModal from '../components/FilterModal'
-import SearchModal from '../components/SearchModal'
-import ScreenLoader from '../components/ScreenLoader'
 import useInterSectionObserver from '../hooks/useIntersectionObserver'
 import mainReducerSlice from '../store/main'
 import { actions as ACTIONS } from "../utils/constants"
@@ -40,6 +39,7 @@ const Characters = () => {
     }, [hasReachedBottom])
 
     const clearAction = () => setActiveAction(null)
+
 
     return (
         <div className='flex flex-col min-h-screen relative'>

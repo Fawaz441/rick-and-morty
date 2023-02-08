@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Empty, Header, LocationItem } from '../components'
-import BottomLoader from '../components/BottomLoader';
-import ScreenLoader from '../components/ScreenLoader';
+import {
+    Empty, Header,
+    BottomLoader, ScreenLoader,
+    LocationItem
+} from '../components'
 import useInterSectionObserver from '../hooks/useIntersectionObserver';
 import mainReducerSlice from '../store/main'
 import { useHistory } from 'react-router-dom'
