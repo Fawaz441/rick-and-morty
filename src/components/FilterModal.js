@@ -30,13 +30,13 @@ const FilterModal = ({ onClose }) => {
 
 
     return (
-        <div className='transition duration-150 h-screen w-screen fixed z-[5] bg-black/[.7]'>
+        <div data-testid="filter-modal" className='transition duration-150 h-screen w-screen fixed z-[5] bg-black/[.7]'>
             <div className='bg-black/[.7] blur-md absolute top-0 left-0 h-full w-full' />
             <div className='absolute top-0 left-0 h-full w-full flex justify-center self-start'>
                 <div className="bg-black self-start rounded-lg p-5 mt-[40px] w-[500px]">
                     <div className="flex justify-between items-center px-8">
                         <h4 className='text-white'>Filter</h4>
-                        <button type="button" className="h-5 w-5 rounded-full" onClick={onClose}>
+                        <button data-testid="filter-cancel" type="button" className="h-5 w-5 rounded-full" onClick={onClose}>
                             <Cancel className="h-8 w-8" />
                         </button>
                     </div>

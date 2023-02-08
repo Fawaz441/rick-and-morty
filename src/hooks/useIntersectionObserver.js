@@ -11,8 +11,8 @@ export default function useInterSectionObserver(ref) {
 
 
     useEffect(() => {
-        observer.observe(ref.current)
-        return () => observer.disconnect()
+        observer?.observe(ref.current)
+        return () => observer?.disconnect()
     }, [])
 
     return isIntersecting

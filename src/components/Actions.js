@@ -18,7 +18,7 @@ export const SearchAction = ({ onClick }) => {
 
     return (
         <>
-            <button onClick={onClick} type="button" className={`h-[50px] w-[50px] rounded-full action bg-white flex items-center justify-center fixed bottom-[30px] left-[10px] md:left-[30px] ${query ? '!bg-[#d1e239]' : ''}`}>
+            <button data-testid="search-btn" onClick={onClick} type="button" className={`h-[50px] w-[50px] rounded-full action bg-white flex items-center justify-center fixed bottom-[30px] left-[10px] md:left-[30px] ${query ? '!bg-[#d1e239]' : ''}`}>
                 <Search className='w-[30px]' />
                 {query && <button type="button" className='absolute right-[-10px] top-[-10px]'
                     onClick={onCancel}
@@ -46,7 +46,7 @@ export const FilterAction = ({ onClick }) => {
 
     return (
         <>
-            <button onClick={onClick} type="button"
+            <button onClick={onClick} type="button" data-testid="filter-btn"
                 className={`h-[50px] w-[50px] rounded-full action bg-white flex items-center justify-center fixed bottom-[30px] right-[10px] md:right-[30px] ${hasFilters ? '!bg-[#d1e239]' : ''}`}>
                 <Filter className={`w-[30px] ${hasFilters ? ' stroke-white' : ''}`} />
                 {hasFilters && <button type="button" className='absolute right-[-10px] top-[-10px]'
